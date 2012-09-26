@@ -1,3 +1,3 @@
-ifeq ($(TARGET_DEVICE),generic-omap4-qhd)
+ifeq ($(TARGET_DEVICE),recovery)
     include $(all-subdir-makefiles)
 endif

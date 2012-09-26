@@ -1,5 +1,3 @@
-BOARD_HAS_LOCKED_BOOTLOADER := true
-
 # Processor
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := omap4
@@ -13,19 +11,8 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 NEEDS_ARM_ERRATA_754319_754320 := true
 TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
-# Recovery
-BUILD_BOOTMENU_STANDALONE := true
-TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/common/recovery-kernel
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_ALWAYS_INSECURE := true
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_MKE2FS := device/motorola/common/releaseutils/mke2fs
-BOARD_HAS_SDCARD_INTERNAL := true
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-# This needs to be a build.prop
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
-
 # MOTOROLA
+BOARD_HAS_LOCKED_BOOTLOADER := true
 USE_MOTOROLA_CODE := true
 ifdef USE_MOTOROLA_CODE
 COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
@@ -35,3 +22,28 @@ ifdef USE_MOTOROLA_USERS
 COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS
 endif
 
+# Recovery
+TARGET_PREBUILT_KERNEL := device/generic/recovery/kernel
+BUILD_BOOTMENU_STANDALONE := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_ALWAYS_INSECURE := true
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_MKE2FS := device/generic/recovery/releaseutils/mke2fs
+
+# This needs to be a build.prop
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+
+# TWRP
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+DEVICE_RESOLUTION := 540x960
+TW_EXTERNAL_STORAGE_PATH := "/sdcard"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
+TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_NO_BATT_PERCENT := true
+TW_NO_REBOOT_BOOTLOADER := true
+TW_NO_REBOOT_RECOVERY := true
+TW_ALWAYS_RMRF := true
+TW_FLASH_FROM_STORAGE := true
+
+# Debugging
+TWRP_EVENT_LOGGING := true

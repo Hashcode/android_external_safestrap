@@ -23,9 +23,10 @@
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product, device/generic/recovery/device.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_generic-omap4-qhd
-PRODUCT_DEVICE := generic-omap4-qhd
-PRODUCT_BRAND := Universal
+PRODUCT_NAME := full_recovery
+PRODUCT_DEVICE := recovery
+PRODUCT_BRAND := generic
 PRODUCT_MODEL := Generic QHD
