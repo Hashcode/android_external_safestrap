@@ -2,6 +2,8 @@
 # This is a generic recovery product configuration for a typical QHD OMAP4
 #
 
+DEVICE_FOLDER := device/generic/recovery
+
 # high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
@@ -15,6 +17,9 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     safestrapmenu
+
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/root/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
