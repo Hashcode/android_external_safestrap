@@ -1,0 +1,59 @@
+on early-init
+    start ueventd
+
+on init
+    loglevel 8
+    export PATH /sbin
+    export LD_LIBRARY_PATH .:/sbin
+    export ANDROID_ROOT /system
+    export ANDROID_DATA /data
+    export EXTERNAL_STORAGE /sdcard
+
+    symlink /system/etc /etc
+
+    mkdir /boot
+    mkdir /sdcard-ext
+    mkdir /sdcard
+    mkdir /sd-ext
+    mkdir /datadata
+    mkdir /systemorig
+    mkdir /system
+    mkdir /data
+    mkdir /cache
+    mount /tmp /tmp tmpfs
+    chmod /tmp 0777
+    mkdir /tmp/tbattd 0777 root mot_accy
+    mkdir /tmp/data/battd 0777 root mot_accy
+
+on fs
+    exec /sbin/fixboot.sh
+    export SAFESTRAP_BOOT true
+
+on boot
+
+    ifup lo
+    hostname localhost
+    domainname localdomain
+
+    class_start default
+
+service ueventd /sbin/ueventd
+    critical
+
+service recovery /sbin/recovery
+
+service battd /sbin/battd
+    socket battdsock stream 0666 mot_accy mot_accy
+    user root
+    group mot_accy mot_pwric
+    oneshot
+
+service adbd /sbin/adbd recovery
+    disabled
+
+on property:persist.service.adb.enable=1
+    start adbd
+
+on property:persist.service.adb.enable=0
+    stop adbd
+

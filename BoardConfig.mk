@@ -35,7 +35,7 @@ BOARD_MKE2FS := device/generic/recovery/releaseutils/mke2fs
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 
 # TWRP
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+TARGET_RECOVERY_PIXEL_FORMAT := "BGR_565"
 DEVICE_RESOLUTION := 540x960
 TW_EXTERNAL_STORAGE_PATH := "/sdcard-ext"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard-ext"
