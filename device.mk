@@ -13,7 +13,8 @@ PRODUCT_PACKAGES += \
     releaseutils-check_kernel \
     releaseutils-finalize_release \
     releaseutils-mke2fs \
-    releaseutils-tune2fs
+    releaseutils-tune2fs \
+    updater
 
 PRODUCT_PACKAGES += \
     safestrapmenu
