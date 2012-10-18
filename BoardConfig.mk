@@ -1,4 +1,5 @@
 # Processor
+TARGET_BOOTLOADER_BOARD_NAME := solana
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
@@ -12,8 +13,8 @@ NEEDS_ARM_ERRATA_754319_754320 := true
 TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
 # MOTOROLA
-BOARD_HAS_LOCKED_BOOTLOADER := true
-BOARD_RUNS_FIXBOOT := true
+#BOARD_HAS_LOCKED_BOOTLOADER := true
+#BOARD_RUNS_FIXBOOT := true
 USE_MOTOROLA_CODE := true
 ifdef USE_MOTOROLA_CODE
 COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
@@ -32,7 +33,7 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_MKE2FS := device/generic/recovery/releaseutils/mke2fs
 
 # This needs to be a build.prop
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/devices/platform/omap/musb-omap2430/musb-hdrc/gadget/lun%d/file"
 
 # TWRP
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
