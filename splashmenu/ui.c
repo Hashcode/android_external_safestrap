@@ -37,41 +37,17 @@
 #define CHAR_WIDTH 10
 #define CHAR_HEIGHT 18
 
-#define PROGRESSBAR_INDETERMINATE_STATES 6
-#define PROGRESSBAR_INDETERMINATE_FPS 15
-
 static pthread_mutex_t gUpdateMutex = PTHREAD_MUTEX_INITIALIZER;
 static gr_surface gBackgroundIcon[NUM_BACKGROUND_ICONS];
-static gr_surface gProgressBarIndeterminate[PROGRESSBAR_INDETERMINATE_STATES];
-static gr_surface gProgressBarEmpty;
-static gr_surface gProgressBarFill;
 
 static const struct { gr_surface* surface; const char *name; } BITMAPS[] = {
     { &gBackgroundIcon[BACKGROUND_DEFAULT], "background-nonsafe" },
     { &gBackgroundIcon[BACKGROUND_ALT], "background-safe" },
     { &gBackgroundIcon[BACKGROUND_BLANK], "background-blank" },
-    { &gProgressBarIndeterminate[0],    "indeterminate1" },
-    { &gProgressBarIndeterminate[1],    "indeterminate2" },
-    { &gProgressBarIndeterminate[2],    "indeterminate3" },
-    { &gProgressBarIndeterminate[3],    "indeterminate4" },
-    { &gProgressBarIndeterminate[4],    "indeterminate5" },
-    { &gProgressBarIndeterminate[5],    "indeterminate6" },
-    { &gProgressBarEmpty,               "progress_empty" },
-    { &gProgressBarFill,                "progress_fill" },
     { NULL,                             NULL },
 };
 
 static gr_surface gCurrentIcon = NULL;
-
-static enum ProgressBarType {
-    PROGRESSBAR_TYPE_NONE,
-    PROGRESSBAR_TYPE_INDETERMINATE,
-    PROGRESSBAR_TYPE_NORMAL,
-} gProgressBarType = PROGRESSBAR_TYPE_NONE;
-
-// Progress bar scope of current operation
-static float gProgressScopeStart = 0, gProgressScopeSize = 0, gProgress = 0;
-static time_t gProgressScopeTime, gProgressScopeDuration;
 
 // Set to 1 when both graphics pages are the same (except for the progress bar)
 static int gPagesIdentical = 0;
@@ -112,42 +88,6 @@ static void draw_background_locked(gr_surface icon)
     }
 }
 
-// Draw the progress bar (if any) on the screen.  Does not flip pages.
-// Should only be called with gUpdateMutex locked.
-static void draw_progress_locked()
-{
-    if (gProgressBarType == PROGRESSBAR_TYPE_NONE) return;
-
-    int iconHeight = gr_get_height(gBackgroundIcon[BACKGROUND_ALT]);
-    int width = gr_get_width(gProgressBarEmpty);
-    int height = gr_get_height(gProgressBarEmpty);
-
-    int dx = (gr_fb_width() - width)/2;
-    int dy = (3*gr_fb_height() + iconHeight - 2*height)/4;
-
-    // Erase behind the progress bar (in case this was a progress-only update)
-    gr_color(0, 0, 0, 255);
-    gr_fill(dx, dy, width, height);
-
-    if (gProgressBarType == PROGRESSBAR_TYPE_NORMAL) {
-        float progress = gProgressScopeStart + gProgress * gProgressScopeSize;
-        int pos = (int) (progress * width);
-
-        if (pos > 0) {
-          gr_blit(gProgressBarFill, 0, 0, pos, height, dx, dy);
-        }
-        if (pos < width-1) {
-          gr_blit(gProgressBarEmpty, pos, 0, width-pos, height, dx+pos, dy);
-        }
-    }
-
-    if (gProgressBarType == PROGRESSBAR_TYPE_INDETERMINATE) {
-        static int frame = 0;
-        gr_blit(gProgressBarIndeterminate[frame], 0, 0, width, height, dx, dy);
-        frame = (frame + 1) % PROGRESSBAR_INDETERMINATE_STATES;
-    }
-}
-
 static void draw_text_line(int row, const char* t) {
   if (t[0] != '\0') {
     gr_text(0, (row+1)*CHAR_HEIGHT-1, t);
@@ -159,7 +99,6 @@ static void draw_text_line(int row, const char* t) {
 static void draw_screen_locked(void)
 {
     draw_background_locked(gCurrentIcon);
-    draw_progress_locked();
 
     if (show_text) {
         gr_color(0, 0, 0, 160);
@@ -201,45 +140,72 @@ static void update_screen_locked(void)
     gr_flip();
 }
 
-// Updates only the progress bar, if possible, otherwise redraws the screen.
-// Should only be called with gUpdateMutex locked.
-static void update_progress_locked(void)
+// Reads input events, handles special hot keys, and adds to the key queue.
+static void *input_thread(void *cookie)
 {
-    if (show_text || !gPagesIdentical) {
-        draw_screen_locked();    // Must redraw the whole screen
-        gPagesIdentical = 1;
-    } else {
-        draw_progress_locked();  // Draw only the progress bar
-    }
-    gr_flip();
-}
-
-// Keeps the progress bar updated, even when the process is otherwise busy.
-static void *progress_thread(void *cookie)
-{
+    LOGW("input_thread: start\n");
+    int rel_sum = 0;
+    int fake_key = 0;
     for (;;) {
-        usleep(1000000 / PROGRESSBAR_INDETERMINATE_FPS);
-        pthread_mutex_lock(&gUpdateMutex);
+        LOGW("input_thread: wait for key\n");
+        // wait for the next key event
+        struct input_event ev;
+        do {
+            ev_get(&ev, 0);
 
-        // update the progress bar animation, if active
-        // skip this if we have a text overlay (too expensive to update)
-        if (gProgressBarType == PROGRESSBAR_TYPE_INDETERMINATE && !show_text) {
-            update_progress_locked();
-        }
-
-        // move the progress bar forward on timed intervals, if configured
-        int duration = gProgressScopeDuration;
-        if (gProgressBarType == PROGRESSBAR_TYPE_NORMAL && duration > 0) {
-            int elapsed = time(NULL) - gProgressScopeTime;
-            float progress = 1.0 * elapsed / duration;
-            if (progress > 1.0) progress = 1.0;
-            if (progress > gProgress) {
-                gProgress = progress;
-                update_progress_locked();
+            if (ev.type == EV_SYN) {
+                continue;
+            } else if (ev.type == EV_REL) {
+                if (ev.code == REL_Y) {
+                    // accumulate the up or down motion reported by
+                    // the trackball.  When it exceeds a threshold
+                    // (positive or negative), fake an up/down
+                    // key event.
+                    rel_sum += ev.value;
+                    if (rel_sum > 3) {
+                        fake_key = 1;
+                        ev.type = EV_KEY;
+                        ev.code = KEY_DOWN;
+                        ev.value = 1;
+                        rel_sum = 0;
+                    } else if (rel_sum < -3) {
+                        fake_key = 1;
+                        ev.type = EV_KEY;
+                        ev.code = KEY_UP;
+                        ev.value = 1;
+                        rel_sum = 0;
+                    }
+                }
+            } else {
+                rel_sum = 0;
             }
+        } while (ev.type != EV_KEY || ev.code > KEY_MAX);
+
+        pthread_mutex_lock(&key_queue_mutex);
+        if (!fake_key) {
+            // our "fake" keys only report a key-down event (no
+            // key-up), so don't record them in the key_pressed
+            // table.
+            key_pressed[ev.code] = ev.value;
+        }
+        fake_key = 0;
+        const int queue_max = sizeof(key_queue) / sizeof(key_queue[0]);
+        if (ev.value > 0 && key_queue_len < queue_max) {
+            key_queue[key_queue_len++] = ev.code;
+            pthread_cond_signal(&key_queue_cond);
+        }
+        pthread_mutex_unlock(&key_queue_mutex);
+
+        if (ev.value > 0 && device_toggle_display(key_pressed, ev.code)) {
+            pthread_mutex_lock(&gUpdateMutex);
+            show_text = !show_text;
+            update_screen_locked();
+            pthread_mutex_unlock(&gUpdateMutex);
         }
 
-        pthread_mutex_unlock(&gUpdateMutex);
+        if (ev.value > 0 && device_reboot_now(key_pressed, ev.code)) {
+            reboot(RB_AUTOBOOT);
+        }
     }
     return NULL;
 }
@@ -262,230 +228,10 @@ int ui_create_bitmaps()
     return result;
 }
 
-static int rel_sum = 0;
-
-#ifdef BOARD_HAS_VIRTUAL_KEYS
-static int in_touch = 0;
-static int slide_right = 0;
-static int slide_left = 0;
-static int touch_x = 0;
-static int touch_y = 0;
-static int old_x = 0;
-static int old_y = 0;
-static int diff_x = 0;
-static int diff_y = 0;
-static int touch_max_x = 1024; // BOARD_MAX_TOUCH_X;
-static int touch_max_y = 1024; // BOARD_MAX_TOUCH_Y;
-static int virtual_key_height = 64; // BOARD_VIRTUAL_KEY_HEIGHT;
-
-static void reset_gestures() {
-    diff_x = 0;
-    diff_y = 0;
-    old_x  = 0;
-    old_y = 0;
-    touch_x = 0;
-    touch_y = 0;
-}
-
-int input_buttons()
-{
-    int keywidth = gr_fb_width() / 4;
-    int final_code = 0;
-    
-    if(touch_x < keywidth) {
-        final_code = KEY_DOWN;
-    } else if(touch_x < keywidth*2) {
-        final_code = KEY_UP;
-    } else if(touch_x < keywidth*3) {
-        final_code = KEY_BACK;
-    } else {
-        final_code = KEY_ENTER;
-    }
-    
-    if (in_touch == 0) {
-        return final_code;
-    } else {
-        return 0;
-    }
-}
-#endif
-
-static int input_callback(int fd, short revents, void *data)
-{
-    struct input_event ev;
-    int ret;
-    int fake_key = 0;
-
-    ret = ev_get_input(fd, revents, &ev);
-    if (ret)
-        return -1;
-
-    if (ev.type == EV_SYN) {
-        return 0;
-    } else if (ev.type == EV_REL) {
-        if (ev.code == REL_Y) {
-            // accumulate the up or down motion reported by
-            // the trackball.  When it exceeds a threshold
-            // (positive or negative), fake an up/down
-            // key event.
-            rel_sum += ev.value;
-            if (rel_sum > 3) {
-                fake_key = 1;
-                ev.type = EV_KEY;
-                ev.code = KEY_DOWN;
-                ev.value = 1;
-                rel_sum = 0;
-            } else if (rel_sum < -3) {
-                fake_key = 1;
-                ev.type = EV_KEY;
-                ev.code = KEY_UP;
-                ev.value = 1;
-                rel_sum = 0;
-            }
-        }
-    } else {
-        rel_sum = 0;
-    }
-
-#ifdef BOARD_HAS_VIRTUAL_KEYS
-    if(ev.type == 3 && ev.code == 57)  {
-        if(in_touch == 0) {
-            in_touch = 1; //starting to track touch...
-            reset_gestures();
-	}
-	else {
-            ev.type = EV_KEY; //touch panel support!!!
-            int keywidth = gr_fb_width() / 4;
-            if(touch_y > (gr_fb_height() - virtual_key_height) && touch_x > 0) {
-                //they lifted in the touch panel region                
-                if(touch_x < keywidth) {
-            printf(">> MENU (%d, %d)\n", touch_x, touch_y);
-                    //back button
-                    ev.code = KEY_MENU;
-                } else if(touch_x < keywidth*2) {
-            printf(">> HOME (%d, %d)\n", touch_x, touch_y);
-                    //down button
-                    ev.code = KEY_HOME;
-                } else if(touch_x < keywidth*3) {
-            printf(">> BACK (%d, %d)\n", touch_x, touch_y);
-                    //up button
-                    ev.code = KEY_BACK;
-                } else {
-            printf(">> SEARCH (%d, %d)\n", touch_x, touch_y);
-                    //enter key
-                    ev.code = KEY_SEARCH;
-                }
-		// no vibrator
-                // vibrate(VIBRATOR_TIME_MS);
-            }
-            if(slide_right == 1) {
-                ev.code = KEY_ENTER;
-                slide_right = 0;
-            } else if(slide_left == 1) {
-                ev.code = KEY_BACK;
-                slide_left = 0;
-            }
-
-            ev.value = 1;
-            in_touch = 0;
-            reset_gestures();
-        }
-    }
-    else if(ev.type == 3 && ev.code == 53) {
-        printf(">> TOUCH X == %d, MAX X == %d\n", ev.value, touch_max_x);
-        old_x = touch_x;
-        double temp = ((double)ev.value / (double)touch_max_x) * (double)gr_fb_width();
-        touch_x = (int)temp;
-        if (old_x != 0) diff_x += touch_x - old_x;
-    
-        if ((touch_y > (gr_fb_height() - virtual_key_height)) && (touch_x > 0)) {
-	    input_buttons();
-        }
-#if 0
-        else {
-            if(diff_x > 100) {
-                printf("Gesture forward generated\n");
-                slide_right = 1;
-                reset_gestures();
-            } else if(diff_x < -100) {
-                printf("Gesture back generated\n");
-                slide_left = 1;
-                reset_gestures();
-            }
-        }
-#endif
-    }
-    else if(ev.type == 3 && ev.code == 54) {
-        printf(">> TOUCH Y == %d, MAX X == %d\n", ev.value, touch_max_y);
-        old_y = touch_y;
-        double temp = ((double)ev.value / (double)touch_max_y) * (double)gr_fb_height();
-        touch_y = (int)temp;
-        if (old_y != 0) diff_y += touch_y - old_y;
-
-        if ((touch_y > (gr_fb_height() - virtual_key_height)) && (touch_x > 0)) {
-            input_buttons();
-        }
-#if 0
-        else {
-            if (diff_y > 80) {
-                printf("Gesture Down generated\n");
-                ev.code = KEY_DOWN;
-                ev.type = EV_KEY;
-                reset_gestures();
-            }
-	    else if(diff_y < -80) {
-                printf("Gesture Up generated\n");
-                ev.code = KEY_UP;
-                ev.type = EV_KEY;
-                reset_gestures();
-            }
-        }
-#endif
-    }
-#endif
-
-    if (ev.type != EV_KEY || ev.code > KEY_MAX)
-        return 0;
-
-    pthread_mutex_lock(&key_queue_mutex);
-    if (!fake_key) {
-        // our "fake" keys only report a key-down event (no
-        // key-up), so don't record them in the key_pressed
-        // table.
-        key_pressed[ev.code] = ev.value;
-    }
-    const int queue_max = sizeof(key_queue) / sizeof(key_queue[0]);
-    if (ev.value > 0 && key_queue_len < queue_max) {
-        key_queue[key_queue_len++] = ev.code;
-        pthread_cond_signal(&key_queue_cond);
-    }
-    pthread_mutex_unlock(&key_queue_mutex);
-
-    if (ev.value > 0 && device_toggle_display(key_pressed, ev.code)) {
-        pthread_mutex_lock(&gUpdateMutex);
-        show_text = !show_text;
-        if (show_text) show_text_ever = 1;
-        update_screen_locked();
-        pthread_mutex_unlock(&gUpdateMutex);
-    }
-
-    return 0;
-}
-
-// Reads input events, handles special hot keys, and adds to the key queue.
-static void *input_thread(void *cookie)
-{
-    for (;;) {
-        if (!ev_wait(-1))
-            ev_dispatch();
-    }
-    return NULL;
-}
-
 void ui_init(void)
 {
     gr_init();
-    ev_init(input_callback, NULL);
+    ev_init();
 
     text_col = text_row = 0;
     text_rows = gr_fb_height() / CHAR_HEIGHT;
@@ -498,8 +244,10 @@ void ui_init(void)
     ui_create_bitmaps();
 
     pthread_t t;
-    pthread_create(&t, NULL, progress_thread, NULL);
+
+    LOGW("ui_init: pre input_thread\n");
     pthread_create(&t, NULL, input_thread, NULL);
+    LOGW("ui_init: post input_thread\n");
     evt_enabled = 1;
 }
 
@@ -521,7 +269,7 @@ void ui_free_bitmaps(void)
 
 void evt_init(void)
 {
-    ev_init(input_callback, NULL);
+    ev_init();
 
     if (!evt_enabled) {
        pthread_t t;
@@ -552,57 +300,6 @@ void ui_set_background(int icon)
 {
     pthread_mutex_lock(&gUpdateMutex);
     gCurrentIcon = gBackgroundIcon[icon];
-    update_screen_locked();
-    pthread_mutex_unlock(&gUpdateMutex);
-}
-
-void ui_show_indeterminate_progress()
-{
-    pthread_mutex_lock(&gUpdateMutex);
-    if (gProgressBarType != PROGRESSBAR_TYPE_INDETERMINATE) {
-        gProgressBarType = PROGRESSBAR_TYPE_INDETERMINATE;
-        update_progress_locked();
-    }
-    pthread_mutex_unlock(&gUpdateMutex);
-}
-
-void ui_show_progress(float portion, int seconds)
-{
-    pthread_mutex_lock(&gUpdateMutex);
-    gProgressBarType = PROGRESSBAR_TYPE_NORMAL;
-    gProgressScopeStart += gProgressScopeSize;
-    gProgressScopeSize = portion;
-    gProgressScopeTime = time(NULL);
-    gProgressScopeDuration = seconds;
-    gProgress = 0;
-    update_progress_locked();
-    pthread_mutex_unlock(&gUpdateMutex);
-}
-
-void ui_set_progress(float fraction)
-{
-    pthread_mutex_lock(&gUpdateMutex);
-    if (fraction < 0.0) fraction = 0.0;
-    if (fraction > 1.0) fraction = 1.0;
-    if (gProgressBarType == PROGRESSBAR_TYPE_NORMAL && fraction > gProgress) {
-        // Skip updates that aren't visibly different.
-        int width = gr_get_width(gProgressBarIndeterminate[0]);
-        float scale = width * gProgressScopeSize;
-        if ((int) (gProgress * scale) != (int) (fraction * scale)) {
-            gProgress = fraction;
-            update_progress_locked();
-        }
-    }
-    pthread_mutex_unlock(&gUpdateMutex);
-}
-
-void ui_reset_progress()
-{
-    pthread_mutex_lock(&gUpdateMutex);
-    gProgressBarType = PROGRESSBAR_TYPE_NONE;
-    gProgressScopeStart = gProgressScopeSize = 0;
-    gProgressScopeTime = gProgressScopeDuration = 0;
-    gProgress = 0;
     update_screen_locked();
     pthread_mutex_unlock(&gUpdateMutex);
 }
@@ -673,8 +370,6 @@ int ui_menu_select(int sel) {
     if (show_menu > 0) {
         old_sel = menu_sel;
         menu_sel = sel;
-//        if (menu_sel < 0) menu_sel = 0;
-//        if (menu_sel >= menu_items) menu_sel = menu_items-1;
         if (menu_sel < 0) menu_sel = menu_items + menu_sel;
         if (menu_sel >= menu_items) menu_sel = menu_sel - menu_items;
 

@@ -16,19 +16,14 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-
 #include <fcntl.h>
 #include <stdio.h>
-
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <sys/types.h>
-
 #include <linux/fb.h>
 #include <linux/kd.h>
-
 #include <pixelflinger/pixelflinger.h>
-
 #include <png.h>
 
 #include "minui.h"
@@ -48,8 +43,6 @@ int res_create_surface(const char* name, gr_surface* pSurface) {
     unsigned char header[8];
     png_structp png_ptr = NULL;
     png_infop info_ptr = NULL;
-
-    *pSurface = NULL;
 
     snprintf(resPath, sizeof(resPath)-1, RES_IMAGES_FOLDER "/%s.png", name);
     resPath[sizeof(resPath)-1] = '\0';
@@ -113,30 +106,31 @@ int res_create_surface(const char* name, gr_surface* pSurface) {
         goto exit;
     }
     unsigned char* pData = (unsigned char*) (surface + 1);
-    surface->version = sizeof(GGLSurface);
+    surface->version = sizeof(GGLSurface); //50.
     surface->width = width;
     surface->height = height;
     surface->stride = width; /* Yes, pixels, not bytes */
     surface->data = pData;
-    surface->format = (channels == 3) ?
-            GGL_PIXEL_FORMAT_RGBX_8888 : GGL_PIXEL_FORMAT_RGBA_8888;
+    if (channels == 3)
+        surface->format = GGL_PIXEL_FORMAT_RGBX_8888;
+    else
+#ifndef PIXELS_BGRA
+        surface->format = GGL_PIXEL_FORMAT_RGBA_8888;
+#else
+        surface->format = GGL_PIXEL_FORMAT_BGRA_8888;
+#endif
 
-    int alpha = 0;
     if (color_type == PNG_COLOR_TYPE_PALETTE) {
         png_set_palette_to_rgb(png_ptr);
     }
-    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
-        png_set_tRNS_to_alpha(png_ptr);
-        alpha = 1;
-    }
 
-    int y;
-    if (channels == 3 || (channels == 1 && !alpha)) {
+    int x;
+    size_t y;
+    if (channels == 3) {
         for (y = 0; y < height; ++y) {
             unsigned char* pRow = pData + y * stride;
             png_read_row(png_ptr, pRow, NULL);
 
-            int x;
             for(x = width - 1; x >= 0; x--) {
                 int sx = x * 3;
                 int dx = x * 4;
@@ -144,16 +138,33 @@ int res_create_surface(const char* name, gr_surface* pSurface) {
                 unsigned char g = pRow[sx + 1];
                 unsigned char b = pRow[sx + 2];
                 unsigned char a = 0xff;
+#ifndef PIXELS_BGRA
                 pRow[dx    ] = r; // r
                 pRow[dx + 1] = g; // g
                 pRow[dx + 2] = b; // b
                 pRow[dx + 3] = a;
+#else
+                pRow[dx + 2] = r;
+                pRow[dx + 1] = g;
+                pRow[dx    ] = b;
+                pRow[dx + 3] = a;
+#endif
             }
         }
     } else {
         for (y = 0; y < height; ++y) {
             unsigned char* pRow = pData + y * stride;
             png_read_row(png_ptr, pRow, NULL);
+#ifdef PIXELS_BGRA
+            if (channels == 4) {
+              for (x = width - 1; x >= 0; x--) {
+                 int dx = x * 4;
+                 unsigned char r = pRow[dx];
+                 pRow[dx] = pRow[dx + 2];
+                 pRow[dx + 2] = r;
+              }
+            }
+#endif
         }
     }
 
@@ -165,17 +176,31 @@ exit:
     if (fp != NULL) {
         fclose(fp);
     }
-    if (result < 0) {
-        if (surface) {
-            free(surface);
-        }
+    if (result < 0 && surface) {
+        free(surface);
     }
     return result;
 }
 
-void res_free_surface(gr_surface surface) {
-    GGLSurface* pSurface = (GGLSurface*) surface;
-    if (pSurface) {
-        free(pSurface);
+void res_free_surface(gr_surface* pSurface) {
+    GGLSurface* surface;
+    if (pSurface && *pSurface) {
+        surface = *pSurface;
+
+#ifdef DEBUG_ALLOC
+        ui_print("\nsurface info:\n");
+        ui_print("  version = %d\n", surface->version);
+        ui_print("  width   = %d\n", surface->width);
+        ui_print("  height  = %d\n", surface->height);
+        ui_print("  data    = %x\n", (unsigned) surface->data);
+        ui_print("surface ptr      = %x\n", (unsigned) surface);
+        //ui_print("pSurface ptr     = %x\n", (unsigned) pSurface);
+#endif
+
+        //doesnt works :(
+        //free(surface);
+
+        *pSurface=NULL;
     }
 }
+

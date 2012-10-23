@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2007-2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@
 
 // Initialize the graphics system.
 void ui_init();
+void ui_final();
+
+void evt_init();
+void evt_exit();
 
 // Use KEY_* codes from <linux/input.h> or KEY_DREAM_* from "minui/minui.h".
 int ui_wait_key();            // waits for a key/button press, returns the code
@@ -57,34 +61,11 @@ enum {
 };
 void ui_set_background(int icon);
 
-// Get a malloc'd copy of the screen image showing (only) the specified icon.
-// Also returns the width, height, and bits per pixel of the returned image.
-// TODO: Use some sort of "struct Bitmap" here instead of all these variables?
-char *ui_copy_image(int icon, int *width, int *height, int *bpp);
-
-// Show a progress bar and define the scope of the next operation:
-//   portion - fraction of the progress bar the next operation will use
-//   seconds - expected time interval (progress bar moves at this minimum rate)
-void ui_show_progress(float portion, int seconds);
-void ui_set_progress(float fraction);  // 0.0 - 1.0 within the defined scope
-
-// Default allocation of progress bar segments to operations
-static const int VERIFICATION_PROGRESS_TIME = 60;
-static const float VERIFICATION_PROGRESS_FRACTION = 0.25;
-static const float DEFAULT_FILES_PROGRESS_FRACTION = 0.4;
-static const float DEFAULT_IMAGE_PROGRESS_FRACTION = 0.1;
-
-// Show a rotating "barberpole" for ongoing operations.  Updates automatically.
-void ui_show_indeterminate_progress();
-
-// Hide and reset the progress bar.
-void ui_reset_progress();
-
 #define LOGE(...) ui_print("E:" __VA_ARGS__)
 #define LOGW(...) fprintf(stdout, "W:" __VA_ARGS__)
 #define LOGI(...) fprintf(stdout, "I:" __VA_ARGS__)
 
-#if 0
+#if 1
 #define LOGV(...) fprintf(stdout, "V:" __VA_ARGS__)
 #define LOGD(...) fprintf(stdout, "D:" __VA_ARGS__)
 #else
@@ -102,10 +83,10 @@ enum {
   ENABLE
 };
 
-//turn on/off a led
-int led_alert(const char* color, int value);
-
 int  ui_create_bitmaps();
 void ui_free_bitmaps();
+
+//checkup
+int checkup_report(void);
 
 #endif  // RECOVERY_COMMON_H
