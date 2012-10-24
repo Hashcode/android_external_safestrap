@@ -14,8 +14,17 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := pasteur
 
-# Build init which doesn't remount /dev, /proc and /sys for 2nd-init
+# MOTOROLA
 BOARD_HAS_LOCKED_BOOTLOADER := true
+BOARD_RUNS_FIXBOOT := true
+USE_MOTOROLA_CODE := true
+ifdef USE_MOTOROLA_CODE
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
+endif
+USE_MOTOROLA_USERS := true
+ifdef USE_MOTOROLA_USERS
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS
+endif
 
 # Recovery
 TARGET_PREBUILT_KERNEL := device/generic/recovery/kernel
