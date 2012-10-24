@@ -12,7 +12,7 @@ BOARD_KERNEL_PAGESIZE := 4096
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_NO_BOOTLOADER := true
-TARGET_BOOTLOADER_BOARD_NAME := otter
+TARGET_BOOTLOADER_BOARD_NAME := pasteur
 
 # Build init which doesn't remount /dev, /proc and /sys for 2nd-init
 BOARD_HAS_LOCKED_BOOTLOADER := true
