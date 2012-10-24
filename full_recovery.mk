@@ -29,4 +29,4 @@ $(call inherit-product, device/generic/recovery/device.mk)
 PRODUCT_NAME := full_recovery
 PRODUCT_DEVICE := recovery
 PRODUCT_BRAND := generic
-PRODUCT_MODEL := Generic QHD
+PRODUCT_MODEL := generic

@@ -13,7 +13,8 @@ PRODUCT_PACKAGES += \
     safestrapmenu
 
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/root/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop
+    $(DEVICE_FOLDER)/root/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop \
+    $(DEVICE_FOLDER)/root/init.rc:$(TARGET_RECOVERY_OUT)/root/init.rc
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise

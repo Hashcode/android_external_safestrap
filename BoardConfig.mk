@@ -8,16 +8,11 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE := mem=512M console=ttyO2,115200n8
+#BOARD_KERNEL_CMDLINE := mem=512M console=ttyO2,115200n8
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := otter
-TARGET_OTA_ASSERT_DEVICE := blaze
-TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
-BOARD_HAS_SDCARD_INTERNAL := true
-BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
-BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
 
 # Build init which doesn't remount /dev, /proc and /sys for 2nd-init
 BOARD_HAS_LOCKED_BOOTLOADER := true
@@ -28,12 +23,12 @@ BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # This needs to be a build.prop
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 
 # TWRP
 TARGET_RECOVERY_INITRC := device/generic/recovery/root/init.rc
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-DEVICE_RESOLUTION := 1024x600
+DEVICE_RESOLUTION := 1280x800
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_NO_REBOOT_BOOTLOADER := true
@@ -44,6 +39,8 @@ RECOVERY_TOUCHSCREEN_SWAP_XY := true
 RECOVERY_TOUCHSCREEN_FLIP_Y := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_PROVIDES_INIT_RC := true
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := "/sys/class/power_supply/battery/charge_counter"
 
 # Debugging
 #TWRP_EVENT_LOGGING := true
