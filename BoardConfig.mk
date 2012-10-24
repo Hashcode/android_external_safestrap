@@ -1,52 +1,49 @@
 # Processor
-TARGET_NO_BOOTLOADER := true
-TARGET_BOARD_PLATFORM := omap4
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_ARCH_VARIANT_CPU := cortex-a9
-TARGET_ARCH_VARIANT_FPU := neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
-NEEDS_ARM_ERRATA_754319_754320 := true
-TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
-# MOTOROLA
+# Kernel
+BOARD_KERNEL_BASE := 0x80000000
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_CMDLINE := mem=512M console=ttyO2,115200n8
+TARGET_NO_RADIOIMAGE := true
+TARGET_BOARD_PLATFORM := omap4
+TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := otter
+TARGET_OTA_ASSERT_DEVICE := blaze
+TARGET_BOARD_INFO_FILE := device/amazon/otter/board-info.txt
+BOARD_HAS_SDCARD_INTERNAL := true
+BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
+BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/platform/omap/omap_hsmmc.1/by-name/media
+
+# Build init which doesn't remount /dev, /proc and /sys for 2nd-init
 BOARD_HAS_LOCKED_BOOTLOADER := true
-BOARD_RUNS_FIXBOOT := true
-USE_MOTOROLA_CODE := true
-ifdef USE_MOTOROLA_CODE
-COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
-endif
-USE_MOTOROLA_USERS := true
-ifdef USE_MOTOROLA_USERS
-COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS
-endif
 
 # Recovery
 TARGET_PREBUILT_KERNEL := device/generic/recovery/kernel
-BUILD_BOOTMENU_STANDALONE := true
-BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_ALWAYS_INSECURE := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_MKE2FS := device/generic/recovery/releaseutils/mke2fs
 
 # This needs to be a build.prop
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 
 # TWRP
+TARGET_RECOVERY_INITRC := device/generic/recovery/root/init.rc
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-DEVICE_RESOLUTION := 540x960
-TW_EXTERNAL_STORAGE_PATH := "/sdcard-ext"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard-ext"
+DEVICE_RESOLUTION := 1024x600
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
-TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_NO_REBOOT_RECOVERY := true
-TW_ALWAYS_RMRF := true
 TW_FLASH_FROM_STORAGE := true
 TW_CUSTOM_POWER_BUTTON := 107
+RECOVERY_TOUCHSCREEN_SWAP_XY := true
+RECOVERY_TOUCHSCREEN_FLIP_Y := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_PROVIDES_INIT_RC := true
 
 # Debugging
 #TWRP_EVENT_LOGGING := true

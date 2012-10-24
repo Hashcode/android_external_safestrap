@@ -134,7 +134,7 @@ static char *vk_strtok_r(char *str, const char *delim, char **save_str)
 
 static int vk_init(struct ev *e)
 {
-    char vk_path[PATH_MAX] = "/system/etc/safestrap/res/splashkeys.";
+    char vk_path[PATH_MAX] = "/ss-res/splashkeys.";
     char vks[2048], *ts = NULL;
     ssize_t len;
     int vk_fd;

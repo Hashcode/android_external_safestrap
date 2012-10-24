@@ -1,5 +1,5 @@
 #
-# This is a generic recovery product configuration for a typical QHD OMAP4
+# This is a generic recovery product configuration for Kindle Fire (Otter)
 #
 
 DEVICE_FOLDER := device/generic/recovery
@@ -8,15 +8,8 @@ DEVICE_FOLDER := device/generic/recovery
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
-# Release utilities
 PRODUCT_PACKAGES += \
-    releaseutils-check_kernel \
-    releaseutils-finalize_release \
-    releaseutils-mke2fs \
-    releaseutils-tune2fs \
-    updater
-
-PRODUCT_PACKAGES += \
+    updater \
     safestrapmenu
 
 PRODUCT_COPY_FILES += \
