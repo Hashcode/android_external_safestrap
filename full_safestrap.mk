@@ -24,15 +24,15 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/res/background-safe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-safe.png \
     $(DEVICE_FOLDER)/res/splashkeys.atmxt-i2c:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.atmxt-i2c \
 
-# Hijack
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/logwrapper:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
-
 # App files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/app/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
     $(DEVICE_FOLDER)/app/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
     $(DEVICE_FOLDER)/app/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh \
+
+# Choose a Common Hijack
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/logwrapper-omap4:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
 
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
 
