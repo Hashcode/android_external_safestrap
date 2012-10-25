@@ -1,5 +1,5 @@
 # inherit from common
--include device/safestrap-common/BoardConfigCommon.mk
+-include device/generic/safestrap-common/BoardConfigCommon.mk
 
 # Processor
 TARGET_NO_BOOTLOADER := true
@@ -9,16 +9,6 @@ TARGET_ARCH_VARIANT_FPU := neon
 NEEDS_ARM_ERRATA_754319_754320 := true
 TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
-# MOTOROLA
-BOARD_HAS_LOCKED_BOOTLOADER := true
-USE_MOTOROLA_CODE := true
-ifdef USE_MOTOROLA_CODE
-COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
-endif
-USE_MOTOROLA_USERS := true
-ifdef USE_MOTOROLA_USERS
-COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_USERS
-endif
 
 # TWRP
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -29,4 +19,8 @@ TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_ALWAYS_RMRF := true
+
+# MOTOROLA
+TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge-counter
+BOARD_HAS_LOCKED_BOOTLOADER := true
 
