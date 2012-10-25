@@ -2,8 +2,8 @@
 
 BOARD_IS_MOTOROLA_DEVICE := true
 
-DEVICE_FOLDER := device/safestrap
-COMMON_FOLDER := device/safestrap-common
+DEVICE_FOLDER := device/generic/safestrap
+COMMON_FOLDER := device/generic/safestrap-common
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop \
@@ -18,4 +18,4 @@ PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/prebuilt/sbin/libwpa_client.so:$(TARGET_RECOVERY_OUT)/root/sbin/libwpa_client.so \
     $(COMMON_FOLDER)/prebuilt/sbin/update-binary:$(TARGET_RECOVERY_OUT)/root/sbin/update-binary \
 
-$(call inherit-product, device/safestrap-common/common.mk)
+$(call inherit-product, $(COMMON_FOLDER)/common.mk)
