@@ -1,5 +1,7 @@
 # Copyright (C) 2012 The Android Open Source Project
 
+BOARD_IS_MOTOROLA_DEVICE := true
+
 DEVICE_FOLDER := device/safestrap
 COMMON_FOLDER := device/safestrap-common
 
@@ -16,4 +18,4 @@ PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/prebuilt/sbin/libwpa_client.so:$(TARGET_RECOVERY_OUT)/root/sbin/libwpa_client.so \
     $(COMMON_FOLDER)/prebuilt/sbin/update-binary:$(TARGET_RECOVERY_OUT)/root/sbin/update-binary \
 
-
+$(call inherit-product, device/safestrap-common/common.mk)
