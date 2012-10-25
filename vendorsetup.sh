@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-add_lunch_combo full_recovery-userdebug
+add_lunch_combo full_safestrap-userdebug

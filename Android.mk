@@ -1,3 +1,3 @@
-ifeq ($(TARGET_DEVICE),recovery)
+ifeq ($(TARGET_DEVICE),safestrap)
     include $(all-subdir-makefiles)
 endif

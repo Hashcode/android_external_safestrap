@@ -1,2 +1,2 @@
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_recovery.mk
+PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_safestrap.mk
 
