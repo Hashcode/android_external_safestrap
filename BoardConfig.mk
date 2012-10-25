@@ -1,17 +1,15 @@
 # inherit from common
--include device/safestrap-common/BoardConfigCommon.mk
+-include device/generic/safestrap-common/BoardConfigCommon.mk
 
 # Processor
+TARGET_NO_BOOTLOADER := true
 TARGET_BOOTLOADER_BOARD_NAME := solana
 TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_ARCH_VARIANT_FPU := neon
-ARCH_ARM_HAVE_TLS_REGISTER := true
 NEEDS_ARM_ERRATA_754319_754320 := true
 TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
-#BOARD_HAS_LOCKED_BOOTLOADER := true
-#BOARD_RUNS_FIXBOOT := true
 
 # TWRP
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -23,7 +21,8 @@ TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_ALWAYS_RMRF := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TARGET_RECOVERY_INITRC := device/generic/safestrap/init.rc
-# Motorola Battery Hack
+TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
+
+# MOTOROLA
 TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge-counter
 
