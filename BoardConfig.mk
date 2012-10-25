@@ -1,5 +1,5 @@
 # inherit from common
--include device/safestrap-common/BoardConfigCommon.mk
+-include device/generic/safestrap-common/BoardConfigCommon.mk
 
 # Processor
 TARGET_NO_BOOTLOADER := true
@@ -25,7 +25,7 @@ BOARD_HAS_LOCKED_BOOTLOADER := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 
 # TWRP/Recovery
-TARGET_RECOVERY_INITRC := device/generic/recovery/init.rc
+TARGET_RECOVERY_INITRC := device/generic/safestrap/init.rc
 TARGET_PROVIDES_INIT_RC := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 DEVICE_RESOLUTION := 1024x600
