@@ -1,6 +1,14 @@
 # inherit from common
 -include device/safestrap-common/BoardConfigCommon.mk
 
+# Processor
+TARGET_NO_BOOTLOADER := true
+TARGET_BOARD_PLATFORM := omap4
+TARGET_ARCH_VARIANT_CPU := cortex-a9
+TARGET_ARCH_VARIANT_FPU := neon
+NEEDS_ARM_ERRATA_754319_754320 := true
+TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
+
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 4096
