@@ -19,6 +19,8 @@ TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_ALWAYS_RMRF := true
+#RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
 
 # MOTOROLA
 TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge-counter

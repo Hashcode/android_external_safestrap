@@ -26,13 +26,13 @@ PRODUCT_COPY_FILES += \
 
 # App files
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/app/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
-    $(DEVICE_FOLDER)/app/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
-    $(DEVICE_FOLDER)/app/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh \
+    $(COMMON_FOLDER)/app/omap4-qhd/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
+    $(COMMON_FOLDER)/app/omap4-qhd/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
+    $(COMMON_FOLDER)/app/omap4-qhd/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh \
 
 # Choose a Common Hijack
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/logwrapper-omap4:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
+    $(COMMON_FOLDER)/hijacks/logwrapper-omap4-qhd:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
 
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
 
