@@ -20,5 +20,5 @@ tune2fs -j $BLOCKNAME_DIR/$IMAGE_NAME
 /sbin/fsync /ss/safestrap/$ROMSLOT_NAME/$IMAGE_NAME.img
 tune2fs -O extents,uninit_bg,dir_index $BLOCKNAME_DIR/$IMAGE_NAME
 /sbin/fsync /ss/safestrap/$ROMSLOT_NAME/$IMAGE_NAME.img
-e2fsck -fDC0 $BLOCKNAME_DIR/$IMAGE_NAME
-/sbin/fsync /ss/safestrap/$ROMSLOT_NAME$IMAGE_NAME.img
+e2fsck -fyD $BLOCKNAME_DIR/$IMAGE_NAME
+/sbin/fsync /ss/safestrap/$ROMSLOT_NAME/$IMAGE_NAME.img

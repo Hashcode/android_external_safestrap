@@ -18,6 +18,9 @@ BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 /sbin/bbx mkdir $SS_MNT
 /sbin/bbx chmod 777 $SS_MNT
 
+# double-check system is unmounted
+/sbin/bbx umount /system
+
 # mount pre-safestrap partition
 /sbin/bbx mount -t vfat $BLOCK_DIR/$SS_PART $SS_MNT
 
@@ -39,7 +42,6 @@ else
 	/sbin/bbx ln -s $BLOCKNAME_DIR/systemorig $BLOCKNAME_DIR/system
 	/sbin/bbx ln -s $BLOCKNAME_DIR/userdataorig $BLOCKNAME_DIR/userdata
 	/sbin/bbx ln -s $BLOCKNAME_DIR/cacheorig $BLOCKNAME_DIR/cache
-	/sbin/bbx umount $SS_MNT
 fi
 
 /sbin/taskset -p -c 0,1 1
