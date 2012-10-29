@@ -25,13 +25,15 @@ BOARD_HAS_LOCKED_BOOTLOADER := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 
 # TWRP/Recovery
-TARGET_RECOVERY_INITRC := device/generic/safestrap/init.rc
+TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-kfire.rc
 TARGET_PROVIDES_INIT_RC := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 DEVICE_RESOLUTION := 1024x600
 TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
+TW_ALWAYS_RMRF := true
 TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_TOUCHSCREEN_SWAP_XY := true
 RECOVERY_TOUCHSCREEN_FLIP_Y := true
+#RECOVERY_SKIP_SCREENINFO_PUT := true
 
