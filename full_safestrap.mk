@@ -40,8 +40,8 @@ PRODUCT_COPY_FILES += \
 
 # 2nd-init stock rootfs files [KFire-HD7 files]
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/root/init.omap4blazeboard.rc-hd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.omap4blazeboard.rc \
-    $(DEVICE_FOLDER)/root/init.rc-hd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.rc
+    $(DEVICE_FOLDER)/root/init.bowser.rc-kfhd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.bowser.rc \
+    $(DEVICE_FOLDER)/root/init.rc-kfhd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.rc
 endif
 
 # App files
