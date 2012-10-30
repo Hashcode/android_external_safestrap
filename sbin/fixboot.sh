@@ -1,12 +1,10 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 10/23/2012
-SS_PART=userdataorig
-USER_MNT=/userdataorig
+# Last Editted: 10/27/2012
+USER_MNT=/u2
 SS_MNT=/ss
-SS_SUBDIR=media
-
 SS_DIR=$SS_MNT/safestrap
+
 BLOCK_DIR=/dev/block
 BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 
@@ -22,11 +20,12 @@ BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 /sbin/bbx mkdir $SS_MNT
 /sbin/bbx chmod 777 $SS_MNT
 
+# double-check system is unmounted
+/sbin/bbx umount /system
+
 # mount pre-safestrap partition
 /sbin/bbx mount -t ext4 -o noatime,nosuid,nodev $BLOCKNAME_DIR/userdataorig $USER_MNT
-
-# create SS mount link
-/sbin/bbx mount $USER_MNT/$SS_SUBDIR $SS_MNT
+/sbin/bbx mount $USER_MNT/media $SS_MNT
 
 #/sbin/bbx mount -o remount,ro rootfs
 SLOT_LOC=$(/sbin/bbx cat $SS_DIR/active_slot)

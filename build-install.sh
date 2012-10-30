@@ -13,6 +13,8 @@ rm -rf system
 rm -rf tmp
 touch init.omap4430.rc
 touch init.omap4blazeboard.rc
+rm $OUT/install-files/etc/safestrap/rootfs/init
+cp init $OUT/install-files/etc/safestrap/rootfs/init
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
 rm $OUT/install-files/etc/safestrap/recovery.zip
 zip -9r $OUT/install-files/etc/safestrap/recovery .
