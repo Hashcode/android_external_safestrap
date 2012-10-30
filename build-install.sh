@@ -2,6 +2,7 @@
 cd $OUT
 rm $OUT/APP/install-files.zip
 rm $OUT/install-files/etc/safestrap/2nd-init.zip
+cp $ANDROID_BUILD_TOP/device/generic/safestrap/sbin/hijack.killall $OUT/2nd-init-files/
 zip -9rj install-files/etc/safestrap/2nd-init 2nd-init-files/*
 cd $OUT/recovery/root
 # clean up for 2nd-init

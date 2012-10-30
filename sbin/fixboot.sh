@@ -45,8 +45,6 @@ else
 	/sbin/bbx ln -s $BLOCKNAME_DIR/systemorig $BLOCKNAME_DIR/system
 	/sbin/bbx ln -s $BLOCKNAME_DIR/userdataorig $BLOCKNAME_DIR/userdata
 	/sbin/bbx ln -s $BLOCKNAME_DIR/cacheorig $BLOCKNAME_DIR/cache
-	/sbin/bbx umount $SS_MNT
-	/sbin/bbx umount $USER_MNT
 fi
 
 /sbin/taskset -p -c 0,1 1

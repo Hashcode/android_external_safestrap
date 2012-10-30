@@ -17,6 +17,7 @@ PRODUCT_COPY_FILES += \
 # Device specific 2nd-init files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/fixboot.sh \
+    $(DEVICE_FOLDER)/sbin/hijack.killall:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/hijack.killall \
 
 ifdef USE_KFIRE_TEST
 # Safestrapmenu
@@ -56,5 +57,4 @@ PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/hijacks/setup_fs-hijack-kfire:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/setup_fs-hijack
 
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
-
 
