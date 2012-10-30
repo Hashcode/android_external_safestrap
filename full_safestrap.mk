@@ -3,7 +3,8 @@
 DEVICE_FOLDER := device/generic/safestrap
 COMMON_FOLDER := device/generic/safestrap-common
 
-USE_KFIRE_TEST := true
+# Only uncomment for testing on 1stgen KFire
+#USE_KFIRE_TEST := true
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop \
@@ -31,6 +32,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/init.omap4430.rc-1stgen:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.omap4430.rc \
     $(DEVICE_FOLDER)/root/init.rc-1stgen:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.rc
+
+# App files
+PRODUCT_COPY_FILES += \
+    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
+    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh-otter \
+    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh
 else
 # Safestrapmenu
 PRODUCT_COPY_FILES += \
@@ -43,13 +50,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/root/init.bowser.rc-kfhd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.bowser.rc \
     $(DEVICE_FOLDER)/root/init.rc-kfhd:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.rc
-endif
 
 # App files
 PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
-    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
-    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh \
+    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh-bowser \
+    $(COMMON_FOLDER)/app/omap4-amazon-setup_fs/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh
+endif
+
 
 # Choose a Common Hijack
 PRODUCT_COPY_FILES += \
