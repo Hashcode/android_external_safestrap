@@ -4,4 +4,4 @@
 /data		ext4		/dev/block/platform/omap/omap_hsmmc.1/by-name/userdata
 /cache		ext4		/dev/block/platform/omap/omap_hsmmc.1/by-name/cache
 /system		ext4		/dev/block/platform/omap/omap_hsmmc.1/by-name/system
-/ss		datamedia	/dev/null
+/ss		ext4		/dev/block/platform/omap/omap_hsmmc.1/by-name/userdataorig
