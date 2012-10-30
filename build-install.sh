@@ -11,8 +11,10 @@ rm -rf proc
 rm -rf sys
 rm -rf system
 rm -rf tmp
-touch init.mapphone_cdma.rc
-touch init.mapphone_umts.rc
+touch init.mmi.usb.rc
+touch init.qcom.rc
+touch init.target.rc
+touch init.vzw.rc
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
 rm $OUT/install-files/etc/safestrap/recovery.zip
 zip -9r $OUT/install-files/etc/safestrap/recovery .
