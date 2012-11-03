@@ -29,6 +29,7 @@ BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 
 #/sbin/bbx mount -o remount,ro rootfs
 SLOT_LOC=$(/sbin/bbx cat $SS_DIR/active_slot)
+/sbin/bbx ps > $SS_MNT/ps2.log
 
 if [ -f "$SS_DIR/$SLOT_LOC/system.img" ] && [ -f "$SS_DIR/$SLOT_LOC/userdata.img" ] && [ -f "$SS_DIR/$SLOT_LOC/cache.img" ]; then
 	# setup loopbacks

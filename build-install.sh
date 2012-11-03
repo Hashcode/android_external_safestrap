@@ -14,6 +14,7 @@ rm -rf tmp
 touch init.omap4430.rc
 touch init.omap4blazeboard.rc
 touch init.bowser.rc
+touch init.bowser.usb.rc
 rm $OUT/install-files/etc/safestrap/rootfs/init
 cp init $OUT/install-files/etc/safestrap/rootfs/init
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop

@@ -6,7 +6,7 @@ HIJACK_BIN := setup_fs
 #HIJACK_BIN := start_smc.sh
 
 # Only uncomment for testing on 1stgen KFire
-USE_KFIRE_TEST := true
+#USE_KFIRE_TEST := true
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop \
