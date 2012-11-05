@@ -23,7 +23,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/res/background-blank.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-blank.png \
     $(DEVICE_FOLDER)/res/background-nonsafe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-nonsafe.png \
     $(DEVICE_FOLDER)/res/background-safe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-safe.png \
-    $(DEVICE_FOLDER)/res/splashkeys.atmxt-i2c:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.atmxt-i2c \
+    $(DEVICE_FOLDER)/res/splashkeys.atmel_mxt_ts:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.atmel_mxt_ts \
+    $(DEVICE_FOLDER)/res/splashkeys.melfas-ts:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.melfas-ts \
 
 # App files
 PRODUCT_COPY_FILES += \
