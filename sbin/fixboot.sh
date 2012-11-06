@@ -1,6 +1,6 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 10/23/2012
+# Last Editted: 11/05/2012
 BLOCK_DIR=/dev/block
 BLOCKNAME_DIR=$BLOCK_DIR/platform/msm_sdcc.1/by-name
 
@@ -23,7 +23,7 @@ SS_DIR=$SS_MNT/safestrap
 /sbin/bbx chmod 777 $SS_MNT
 
 # mount safestrap partition
-/sbin/e2fsck -p $BLOCKNAME_DIR/$SS_PART
+#/sbin/e2fsck -p $BLOCKNAME_DIR/$SS_PART
 /sbin/bbx mount -t $IMG_TYPE $BLOCKNAME_DIR/$SS_PART $USER_MNT
 /sbin/bbx mount $USER_MNT/media $SS_MNT
 
