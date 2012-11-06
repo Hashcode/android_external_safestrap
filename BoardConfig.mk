@@ -16,12 +16,7 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_BOOTLOADER_BOARD_NAME := pasteur
 BOARD_HAS_SDCARD_INTERNAL := true
 
-# Build init which doesn't remount /dev, /proc and /sys for 2nd-init
-BOARD_HAS_LOCKED_BOOTLOADER := true
-
 # TWRP/Recovery
-TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
-TARGET_PROVIDES_INIT_RC := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 DEVICE_RESOLUTION := 1280x800
 TW_INTERNAL_STORAGE_PATH := "/data/media"
@@ -29,9 +24,11 @@ TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 BOARD_HAS_NO_REAL_SDCARD := true
 RECOVERY_SDCARD_ON_DATA := true
 TW_ALWAYS_RMRF := true
-TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
 
 # MOTOROLA
+BOARD_HAS_LOCKED_BOOTLOADER := true
 TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := "/sys/class/power_supply/battery/charge_counter"
 

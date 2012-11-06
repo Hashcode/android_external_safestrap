@@ -3,7 +3,7 @@
 # Last Editted: 10/23/2012
 SS_SLOT=${1}
 BLOCK_DIR=/dev/block
-BLOCKNAME_DIR=/dev/block/platform/omap/omap_hsmmc.1/by-name
+BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap
 
