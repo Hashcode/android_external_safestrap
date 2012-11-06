@@ -1,0 +1,24 @@
+on init
+    exec /sbin/fixboot.sh
+    export SAFESTRAP_BOOT true
+
+on boot
+#Optimize TCP parameters to meet throughput needs for VzW
+# ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 131072,262144,655360,4096,16384,147456
+    setprop net.tcp.buffersize.wifi 131072,262144,1572864,4096,221184,1572864
+    setprop net.tcp.buffersize.umts 131072,262144,726016,4096,16384,199680
+    setprop net.tcp.buffersize.edge 16384,32768,65536,4096,16384,32768
+    setprop net.tcp.buffersize.gprs 4096,8192,12288,4096,8192,12288
+    setprop net.tcp.buffersize.hspa 131072,262144,726016,4096,16384,199680
+    setprop net.tcp.buffersize.lte 524288,1048576,4194304,262144,524288,2097152
+    setprop net.tcp.buffersize.cdma 4096,12288,24576,4096,12288,24576
+    setprop net.tcp.buffersize.evdo 16384,32768,65536,4096,16384,51200
+    setprop net.tcp.buffersize.2ghotspot 4096,16384,32768,16384,32768,65536
+    setprop net.tcp.buffersize.3ghotspot 4096,16384,199680,131072,262144,726016
+    setprop net.tcp.buffersize.4ghotspot 262144,524288,2097152,524288,1048576,4194304
+
+#Assign TCP buffer thresholds to be ceiling value of technology maximums
+# Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max 4194304
+    write /proc/sys/net/core/wmem_max 4194304

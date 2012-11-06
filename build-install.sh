@@ -16,6 +16,7 @@ touch init.qcom.rc
 touch init.target.rc
 touch init.vzw.rc
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
+cp $OUT/system/bin/updater $OUT/recovery/root/sbin/update-binary
 rm $OUT/install-files/etc/safestrap/recovery.zip
 zip -9r $OUT/install-files/etc/safestrap/recovery .
 cd $OUT
