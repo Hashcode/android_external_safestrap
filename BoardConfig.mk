@@ -23,6 +23,9 @@ RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-qcom.rc
 
+# Virtual partition size default (in mb)
+BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 1024
+
 # MOTOROLA
 BOARD_HAS_LOCKED_BOOTLOADER := true
 
