@@ -14,6 +14,7 @@ rm -rf tmp
 touch init.mapphone_cdma.rc
 touch init.mapphone_umts.rc
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
+cp $OUT/system/bin/updater $OUT/recovery/root/sbin/update-binary
 rm $OUT/install-files/etc/safestrap/recovery.zip
 zip -9r $OUT/install-files/etc/safestrap/recovery .
 cd $OUT

@@ -1,24 +1,30 @@
 #!/sbin/bbx sh
+# By: Hashcode
+# Last Editted: 11/06/2012
 SS_SLOT=${1}
+BLOCK_DIR=/dev/block
+BLOCKNAME_DIR=$BLOCK_DIR
+SS_MNT=/ss
+SS_DIR=$SS_MNT/safestrap
 
-rm /dev/block/system
-rm /dev/block/userdata
-rm /dev/block/cache
-/sbin/bbx losetup -d /dev/block/loop7
-/sbin/bbx losetup -d  /dev/block/loop6
-/sbin/bbx losetup -d  /dev/block/loop5
+rm $BLOCKNAME_DIR/system
+rm $BLOCKNAME_DIR/userdata
+rm $BLOCKNAME_DIR/cache
+/sbin/bbx losetup -d $BLOCK_DIR/loop7
+/sbin/bbx losetup -d $BLOCK_DIR/loop6
+/sbin/bbx losetup -d $BLOCK_DIR/loop5
 
 if [ "$SS_SLOT" = "stock" ]; then
-	ln -s /dev/block/systemorig /dev/block/system
-	ln -s /dev/block/userdataorig /dev/block/userdata
-	ln -s /dev/block/cacheorig /dev/block/cache
+	ln -s $BLOCKNAME_DIR/systemorig $BLOCKNAME_DIR/system
+	ln -s $BLOCKNAME_DIR/userdataorig $BLOCKNAME_DIR/userdata
+	ln -s $BLOCKNAME_DIR/cacheorig $BLOCKNAME_DIR/cache
 else
-	/sbin/bbx losetup /dev/block/loop7 /ss/safestrap/$SS_SLOT/system.img
-	/sbin/bbx losetup /dev/block/loop6 /ss/safestrap/$SS_SLOT/userdata.img
-	/sbin/bbx losetup /dev/block/loop5 /ss/safestrap/$SS_SLOT/cache.img
-	/sbin/bbx ln -s /dev/block/loop7 /dev/block/system
-	/sbin/bbx ln -s /dev/block/loop6 /dev/block/userdata
-	/sbin/bbx ln -s /dev/block/loop5 /dev/block/cache
+	/sbin/bbx losetup $BLOCK_DIR/loop7 $SS_DIR/$SS_SLOT/system.img
+	/sbin/bbx losetup $BLOCK_DIR/loop6 $SS_DIR/$SS_SLOT/userdata.img
+	/sbin/bbx losetup $BLOCK_DIR/loop5 $SS_DIR/$SS_SLOT/cache.img
+	/sbin/bbx ln -s $BLOCK_DIR/loop7 $BLOCKNAME_DIR/system
+	/sbin/bbx ln -s $BLOCK_DIR/loop6 $BLOCKNAME_DIR/userdata
+	/sbin/bbx ln -s $BLOCK_DIR/loop5 $BLOCKNAME_DIR/cache
 fi
-echo "$SS_SLOT" > /ss/safestrap/active_slot
+echo "$SS_SLOT" > $SS_DIR/active_slot
 
