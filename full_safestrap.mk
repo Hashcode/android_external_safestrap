@@ -20,6 +20,7 @@ PRODUCT_COPY_FILES += \
 # Device specific 2nd-init files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/fixboot.sh \
+    $(COMMON_FOLDER)/sbin/strace:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/strace \
 
 ifdef USE_KFIRE_TEST
 # Safestrapmenu
