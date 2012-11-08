@@ -1,6 +1,6 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 10/23/2012
+# Last Editted: 11/07/2012
 SS_SLOT=${1}
 BLOCK_DIR=/dev/block
 BLOCKNAME_DIR=$BLOCK_DIR/platform/msm_sdcc.1/by-name
