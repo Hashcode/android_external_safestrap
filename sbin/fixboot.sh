@@ -32,14 +32,14 @@ SLOT_LOC=$(/sbin/bbx cat $SS_DIR/active_slot)
 
 if [ -f "$SS_DIR/$SLOT_LOC/system.img" ] && [ -f "$SS_DIR/$SLOT_LOC/userdata.img" ] && [ -f "$SS_DIR/$SLOT_LOC/cache.img" ]; then
 	# setup loopbacks
-	/sbin/bbx losetup $BLOCK_DIR/loop7 $SS_DIR/$SLOT_LOC/system.img
-	/sbin/bbx losetup $BLOCK_DIR/loop6 $SS_DIR/$SLOT_LOC/userdata.img
-	/sbin/bbx losetup $BLOCK_DIR/loop5 $SS_DIR/$SLOT_LOC/cache.img
+	/sbin/bbx losetup $BLOCK_DIR/loop-system $SS_DIR/$SLOT_LOC/system.img
+	/sbin/bbx losetup $BLOCK_DIR/loop-userdata $SS_DIR/$SLOT_LOC/userdata.img
+	/sbin/bbx losetup $BLOCK_DIR/loop-cache $SS_DIR/$SLOT_LOC/cache.img
 
 	# change symlinks
-	/sbin/bbx ln -s $BLOCK_DIR/loop7 $BLOCKNAME_DIR/system
-	/sbin/bbx ln -s $BLOCK_DIR/loop6 $BLOCKNAME_DIR/userdata
-	/sbin/bbx ln -s $BLOCK_DIR/loop5 $BLOCKNAME_DIR/cache
+	/sbin/bbx ln -s $BLOCK_DIR/loop-system $BLOCKNAME_DIR/system
+	/sbin/bbx ln -s $BLOCK_DIR/loop-userdata $BLOCKNAME_DIR/userdata
+	/sbin/bbx ln -s $BLOCK_DIR/loop-cache $BLOCKNAME_DIR/cache
 else
 	echo "stock" > $SS_DIR/active_slot
 	/sbin/bbx ln -s $BLOCKNAME_DIR/systemorig $BLOCKNAME_DIR/system
