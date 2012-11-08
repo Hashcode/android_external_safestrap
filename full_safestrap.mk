@@ -31,11 +31,6 @@ PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/app/omap4-qhd/recovery-install.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
     $(COMMON_FOLDER)/app/omap4-qhd/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh \
 
-# rootfs
-PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/init.rc:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init.rc \
-    $(DEVICE_FOLDER)/init:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/rootfs/init \
-
 # Choose a Common Hijack
 PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/hijacks/logwrapper-omap4-qhd:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
