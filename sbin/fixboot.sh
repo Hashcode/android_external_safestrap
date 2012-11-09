@@ -36,7 +36,7 @@ if [ ! -f "$BLOCKNAME_DIR/systemorig" ]; then
 	/sbin/bbx umount /system
 
 	# mount pre-safestrap partition
-	/sbin/bbx mount -t $IMG_TYPE -o noatime,nosuid,nodev $BLOCKNAME_DIR/$SS_PART $USER_MNT
+	/sbin/bbx mount -t $IMG_TYPE $BLOCKNAME_DIR/$SS_PART $USER_MNT
 	/sbin/bbx mount $USER_MNT/media $SS_MNT
 	SLOT_LOC=$(/sbin/bbx cat $SS_DIR/active_slot)
 
