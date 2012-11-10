@@ -18,6 +18,7 @@ touch init.bowser.usb.rc
 rm $OUT/install-files/etc/safestrap/rootfs/init
 cp init $OUT/install-files/etc/safestrap/rootfs/init
 cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
+cp $OUT/system/bin/updater $OUT/recovery/root/sbin/update-binary
 rm $OUT/install-files/etc/safestrap/recovery.zip
 zip -9r $OUT/install-files/etc/safestrap/recovery .
 cd $OUT

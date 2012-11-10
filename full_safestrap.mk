@@ -16,11 +16,12 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/sbin/changeslot.sh:$(TARGET_RECOVERY_OUT)/root/sbin/changeslot.sh \
     $(DEVICE_FOLDER)/sbin/build-fs.sh:$(TARGET_RECOVERY_OUT)/root/sbin/build-fs.sh \
     $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/sbin/fixboot.sh \
+    $(DEVICE_FOLDER)/sbin/strace:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/strace \
+    $(DEVICE_FOLDER)/sbin/do_watchdog.sh:$(TARGET_RECOVERY_OUT)/root/sbin/do_watchdog.sh \
 
 # Device specific 2nd-init files
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/fixboot.sh \
-    $(DEVICE_FOLDER)/sbin/strace:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/strace \
 
 ifdef USE_KFIRE_TEST
 # Safestrapmenu
