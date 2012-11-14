@@ -5,10 +5,13 @@ BLOCK_DIR=/dev/block
 BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 
 SS_PART=userdataorig
-USER_MNT=/u2
+USER_MNT=/datamedia
 IMG_TYPE=ext4
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap
+
+#restart the watchdog process
+/sbin/watchdog &
 
 # check for SS loopdevs
 if [ ! -f "$BLOCK_DIR/loop-system" ]; then
