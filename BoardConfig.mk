@@ -23,6 +23,10 @@ RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-qcom.rc
 BOARD_USE_NEW_LOOPBACK := true
+TW_IGNORE_VIRTUAL_KEYS := true
+
+# Logging
+#TWRP_EVENT_LOGGING := true
 
 # Virtual partition size default (in mb)
 BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 1024
