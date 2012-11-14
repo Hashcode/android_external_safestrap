@@ -28,7 +28,7 @@ RECOVERY_SDCARD_ON_DATA := true
 TW_ALWAYS_RMRF := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
+TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-omap4.rc
 BOARD_USE_NEW_LOOPBACK := true
 
 # Virtual partition size default (in mb)
@@ -39,5 +39,5 @@ BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 700
 
 # MOTOROLA
 BOARD_HAS_LOCKED_BOOTLOADER := true
-TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := "/sys/class/power_supply/battery/charge_counter"
+#TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := "/sys/class/power_supply/battery/charge_counter"
 

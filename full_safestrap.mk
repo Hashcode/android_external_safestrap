@@ -25,6 +25,7 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/res/background-safe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-safe.png \
     $(DEVICE_FOLDER)/res/splashkeys.atmxt-i2c:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.atmxt-i2c \
     $(DEVICE_FOLDER)/res/splashkeys.qtouch-touchscreen:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.qtouch-touchscreen \
+    $(DEVICE_FOLDER)/res/splashkeys.cyttsp4-i2c:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.cyttsp4-i2c \
 
 # App files
 PRODUCT_COPY_FILES += \
