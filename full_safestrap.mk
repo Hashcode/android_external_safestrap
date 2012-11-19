@@ -7,6 +7,7 @@ HIJACK_BIN := setup_fs
 
 # Only uncomment for testing on 1stgen KFire
 #USE_KFIRE_TEST := true
+#USE_KFIRE_HD89 := true
 
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/default.prop:$(TARGET_RECOVERY_OUT)/root/default.prop \
@@ -35,17 +36,26 @@ PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-install.sh-otter:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
     $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh
 else
+ifdef USE_KFIRE_HD89
+# Safestrapmenu
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/res_1920x1200/background-blank.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-blank.png \
+    $(DEVICE_FOLDER)/res_1920x1200/background-nonsafe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-nonsafe.png \
+    $(DEVICE_FOLDER)/res_1920x1200/background-safe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-safe.png \
+    $(DEVICE_FOLDER)/res_1920x1200/splashkeys.cyttsp4-i2c:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.cyttsp4-i2c \
+    $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-install.sh-jem:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh
+else
 # Safestrapmenu
 PRODUCT_COPY_FILES += \
     $(DEVICE_FOLDER)/res_1280x800/background-blank.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-blank.png \
     $(DEVICE_FOLDER)/res_1280x800/background-nonsafe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-nonsafe.png \
     $(DEVICE_FOLDER)/res_1280x800/background-safe.png:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/background-safe.png \
     $(DEVICE_FOLDER)/res_1280x800/splashkeys.AtmelTouch:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/res/splashkeys.AtmelTouch \
-
+    $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-install.sh-bowser:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh
+endif
 # App files
 PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-check.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-check.sh \
-    $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-install.sh-bowser:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-install.sh \
     $(COMMON_FOLDER)/app/omap4-amazon-$(HIJACK_BIN)/recovery-uninstall.sh:$(TARGET_RECOVERY_OUT)/root/../APP/recovery-uninstall.sh
 endif
 
