@@ -7,6 +7,10 @@ BLOCKNAME_DIR=$BLOCK_DIR/platform/msm_sdcc.1/by-name
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap
 
+/sbin/bbx umount /system
+/sbin/bbx umount /data
+/sbin/bbx umount /cache
+
 rm $BLOCKNAME_DIR/system
 rm $BLOCKNAME_DIR/userdata
 rm $BLOCKNAME_DIR/cache

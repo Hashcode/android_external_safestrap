@@ -6,3 +6,4 @@
 /cache		ext4		/dev/block/platform/msm_sdcc.1/by-name/cache
 /system		ext4		/dev/block/platform/msm_sdcc.1/by-name/system
 /ss		ext4		/dev/block/platform/msm_sdcc.1/by-name/userdataorig
+/datamedia	ext4		/dev/block/platform/msm_sdcc.1/by-name/userdataorig
