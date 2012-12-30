@@ -22,6 +22,8 @@ TW_ALWAYS_RMRF := true
 #RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_RECOVERY_INITRC := device/generic/safestrap-common/init/init-motorola-battd.rc
 BOARD_USE_NEW_LOOPBACK := true
+BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 640
+BOARD_DEFAULT_VIRT_CACHE_SIZE := 260
 
 # MOTOROLA
 TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge-counter
