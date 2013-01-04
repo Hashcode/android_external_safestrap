@@ -26,6 +26,6 @@ BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 640
 BOARD_DEFAULT_VIRT_CACHE_SIZE := 260
 
 # MOTOROLA
-TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge-counter
+TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge_counter
 BOARD_HAS_LOCKED_BOOTLOADER := true
 
