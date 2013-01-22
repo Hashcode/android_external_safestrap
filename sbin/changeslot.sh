@@ -1,11 +1,15 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 11/07/2012
+# Last Editted: 01/04/2013
 SS_SLOT=${1}
 BLOCK_DIR=/dev/block
 BLOCKNAME_DIR=$BLOCK_DIR/platform/omap/omap_hsmmc.1/by-name
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap
+
+/sbin/bbx umount /system
+/sbin/bbx umount /data
+/sbin/bbx umount /cache
 
 rm $BLOCKNAME_DIR/system
 rm $BLOCKNAME_DIR/userdata

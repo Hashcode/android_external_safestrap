@@ -37,5 +37,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(COMMON_FOLDER)/hijacks/logwrapper-xoom2:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper \
 
+# Choose a Common backup/restore method
+PRODUCT_COPY_FILES += \
+    $(COMMON_FOLDER)/sbin/logwrapper-backup-ss.sh:$(TARGET_RECOVERY_OUT)/root/sbin/backup-ss.sh \
+    $(COMMON_FOLDER)/sbin/logwrapper-restore-ss.sh:$(TARGET_RECOVERY_OUT)/root/sbin/restore-ss.sh \
+
 $(call inherit-product, $(COMMON_FOLDER)/common.mk)
 
