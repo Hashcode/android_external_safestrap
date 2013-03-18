@@ -10,13 +10,23 @@ PRODUCT_COPY_FILES += \
 
 # Device specific recovery files
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/sbin/changeslot.sh:$(TARGET_RECOVERY_OUT)/root/sbin/changeslot.sh \
     $(DEVICE_FOLDER)/sbin/build-fs.sh:$(TARGET_RECOVERY_OUT)/root/sbin/build-fs.sh \
+    $(DEVICE_FOLDER)/sbin/changeslot.sh:$(TARGET_RECOVERY_OUT)/root/sbin/changeslot.sh \
     $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/sbin/fixboot.sh \
 
 # Device specific 2nd-init files
 PRODUCT_COPY_FILES += \
-    $(DEVICE_FOLDER)/sbin/fixboot.sh:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/fixboot.sh \
+    $(DEVICE_FOLDER)/sbin/fixboot-taskset.sh:$(TARGET_RECOVERY_OUT)/root/../2nd-init-files/fixboot.sh \
+
+# Kexec files
+PRODUCT_COPY_FILES += \
+    $(DEVICE_FOLDER)/kexec/arm_kexec.ko:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/arm_kexec.ko \
+    $(DEVICE_FOLDER)/kexec/atags:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/atags \
+    $(DEVICE_FOLDER)/kexec/devtree:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/devtree \
+    $(DEVICE_FOLDER)/kexec/kexec:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/kexec \
+    $(DEVICE_FOLDER)/kexec/kexec.ko:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/kexec.ko \
+    $(DEVICE_FOLDER)/kexec/uart.ko:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/uart.ko \
+    $(OUT)/kernel:$(TARGET_RECOVERY_OUT)/root/../install-files/etc/safestrap/kexec/kernel \
 
 # Safestrapmenu
 PRODUCT_COPY_FILES += \
@@ -33,7 +43,7 @@ PRODUCT_COPY_FILES += \
 
 # Choose a Common Hijack
 PRODUCT_COPY_FILES += \
-    $(COMMON_FOLDER)/hijacks/logwrapper-omap4-qhd:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
+    $(COMMON_FOLDER)/hijacks/logwrapper-omap4-qhd-kexec:$(TARGET_RECOVERY_OUT)/root/../install-files/bin/logwrapper
 
 # Choose a Common backup/restore method
 PRODUCT_COPY_FILES += \

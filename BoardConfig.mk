@@ -1,14 +1,22 @@
 # inherit from common
 -include device/generic/safestrap-common/BoardConfigCommon.mk
 
+# Custom includes for kernel and frameworks
+PRODUCT_VENDOR_KERNEL_HEADERS := device/generic/safestrap/kernel-headers
+TARGET_SPECIFIC_HEADER_PATH := device/generic/safestrap/include
+
 # Processor
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := omap4
 TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_ARCH_VARIANT_FPU := neon
-NEEDS_ARM_ERRATA_754319_754320 := true
-TARGET_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
+# Kernel Build
+BOARD_KERNEL_CMDLINE := root=/dev/ram0 rw mem=1023M@0x80000000 console=null vram=10300K omapfb.vram=0:8256K,1:4K,2:2040K init=/init ip=off mmcparts=mmcblk1:p7(pds),p8(utags),p14(boot),p15(recovery),p16(cdrom),p17(misc),p18(cid),p19(kpanic),p20(system),p21(cache),p22(preinstall),p23(webtop),p24(userdata),p25(emstorage) mot_sst=1 androidboot.bootloader=0x0A74
+BOARD_KERNEL_BASE := 0x80000000
+BOARD_PAGE_SIZE := 0x4096
+TARGET_KERNEL_SOURCE := kernel/motorola/omap4-kexec-common
+TARGET_KERNEL_CONFIG := mapphone_spyder_defconfig
 
 # TWRP
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -26,6 +34,15 @@ BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 640
 BOARD_DEFAULT_VIRT_CACHE_SIZE := 260
 
 # MOTOROLA
-TARGET_USE_CUSTOM_BATTERY_CAPACITY_PATH := /sys/class/power_supply/battery/charge_counter
-BOARD_HAS_LOCKED_BOOTLOADER := true
+TW_CUSTOM_BATTERY_CAPACITY_FIELD := charge_counter
+
+BOARD_USE_MOTOROLA_DEV_ALIAS := true
+ifdef BOARD_USE_MOTOROLA_DEV_ALIAS
+COMMON_GLOBAL_CFLAGS += -DBOARD_USE_MOTOROLA_DEV_ALIAS
+endif
+
+USE_MOTOROLA_CODE := true
+ifdef USE_MOTOROLA_CODE
+COMMON_GLOBAL_CFLAGS += -DUSE_MOTOROLA_CODE
+endif
 
