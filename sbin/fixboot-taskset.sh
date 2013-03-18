@@ -51,3 +51,4 @@ if [ ! -f "$BLOCKNAME_DIR/systemorig" ]; then
 	fi
 fi
 
+/sbin/taskset -p -c 0,1 1
