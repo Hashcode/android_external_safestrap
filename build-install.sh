@@ -17,7 +17,7 @@ touch ./init.mapphone_umts.rc
 # we're using a real taskset binary
 rm -rf sbin/taskset
 cp $OUT/../../../../bootable/recovery/safestrap-common/init/init-motorola-battd.rc ./init.rc
-cp $OUT/../../../../external/safestrap/recovery.fstab ./etc/recovery.fstab
+cp $OUT/../../../../external/safestrap/twrp.fstab ./etc/twrp.fstab
 rm $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 mkbootfs $OUT/recovery/root | minigzip > $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 cd $OUT
