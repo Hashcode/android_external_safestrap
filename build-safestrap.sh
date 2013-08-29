@@ -14,6 +14,5 @@ cp -fr ./app/omap4-qhd/* $OUT/APP/
 cp -fr ./hijacks/logwrapper-omap4-qhd $OUT/install-files/bin/logwrapper
 cp -fr ./sbin/logwrapper-backup-ss.sh $OUT/recovery/root/sbin/backup-ss.sh
 cp -fr ./sbin/logwrapper-restore-ss.sh $OUT/recovery/root/sbin/restore-ss.sh
-cp -fr ./sbin/strace $OUT/recovery/root/sbin/strace
 cp -fr ./init/init-motorola-battd.rc $OUT/recovery/root/init.rc
 cd ../gui
