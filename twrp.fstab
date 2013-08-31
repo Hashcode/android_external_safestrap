@@ -2,9 +2,10 @@
 
 /sdcard-ext     vfat            /dev/block/mmcblk0p1  /dev/block/mmcblk0 flags=display="Micro SDcard";storage;wipeingui;removable
 /sdcard         vfat            /dev/block/emstorage  flags=display="Internal Storage"
-/system         ext3            /dev/block/system
+/system         ext3            /dev/block/system     flags=usermrf
 /data           ext3            /dev/block/userdata
 /cache          ext3            /dev/block/cache
+/osh            ext3            /dev/block/webtop     flags=usermrf
 /systemorig     auto            /dev/block/systemorig flags=hidden
 /ss		vfat		/dev/block/emstorage  flags=hidden
 
