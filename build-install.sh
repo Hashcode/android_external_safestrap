@@ -10,14 +10,21 @@ rm -rf dev
 rm -rf proc
 rm -rf sys
 rm -rf system
+rm -rf supersu
 rm -rf tmp
-touch init.mmi.usb.rc
-touch init.qcom.rc
-touch init.target.rc
-touch init.vzw.rc
-cp $ANDROID_BUILD_TOP/device/generic/safestrap/default.prop default.prop
-cp $OUT/system/bin/updater $OUT/recovery/root/sbin/update-binary
-rm $OUT/install-files/etc/safestrap/recovery.zip
-zip -9r $OUT/install-files/etc/safestrap/recovery .
+touch ./init.mmi.usb.rc
+touch ./init.qcom.rc
+touch ./init.target.rc
+touch ./init.vzw.rc
+# we're using a real taskset binary
+rm -rf sbin/taskset
+cp $OUT/../../../../bootable/recovery/safestrap-common/devices/motorola_qcom-common/init.rc ./init.rc
+cp $OUT/../../../../external/safestrap/twrp.fstab ./etc/twrp.fstab
+rm $OUT/install-files/etc/safestrap/ramdisk-recovery.img
+mkbootfs $OUT/recovery/root | minigzip > $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 cd $OUT
+rm install-files/etc/safestrap/2nd-init.zip
+zip -9rj install-files/etc/safestrap/2nd-init 2nd-init-files/*
+rm APP/install-files.zip
 zip -9r APP/install-files install-files
+
