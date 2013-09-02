@@ -5,6 +5,6 @@
 /data         ext4      /dev/block/platform/msm_sdcc.1/by-name/userdata
 /cache        ext4      /dev/block/platform/msm_sdcc.1/by-name/cache
 /system       ext4      /dev/block/platform/msm_sdcc.1/by-name/system       flags=usermrf
-/systemorig   auto      /dev/block/systemorig                               flags=hidden
+/systemorig   ext4      /dev/block/platform/msm_sdcc.1/by-name/systemorig   flags=hidden;usermrf
 /ss           ext4      /dev/block/platform/msm_sdcc.1/by-name/userdataorig flags=hidden
 /datamedia    ext4      /dev/block/platform/msm_sdcc.1/by-name/userdataorig flags=hidden
