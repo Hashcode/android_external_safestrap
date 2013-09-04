@@ -18,7 +18,7 @@ touch ./init.target.rc
 touch ./init.vzw.rc
 # we're using a real taskset binary
 rm -rf sbin/taskset
-cp $OUT/../../../../bootable/recovery/safestrap-common/devices/motorola_msm8960-common/init.rc ./init.rc
+cp $OUT/../../../../bootable/recovery/safestrap-common/devices/samsung_msm8960-common/init.rc ./init.rc
 cp $OUT/../../../../external/safestrap/twrp.fstab ./etc/twrp.fstab
 rm $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 mkbootfs $OUT/recovery/root | minigzip > $OUT/install-files/etc/safestrap/ramdisk-recovery.img
