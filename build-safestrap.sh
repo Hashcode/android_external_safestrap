@@ -8,7 +8,6 @@ mkdir -p $OUT/install-files/etc/safestrap/res/
 cp -fr ./sbin/* $OUT/recovery/root/sbin/
 cp -fr ./2nd-init-files/* $OUT/2nd-init-files/
 cp -fr ./res/* $OUT/install-files/etc/safestrap/res/
-cp -fr ./safestrapmenu $OUT/install-files/etc/safestrap/
 cd $OUT/../../../../bootable/recovery/safestrap-common/devices/motorola_omap4-common
 cp -fr ./recovery-check.sh $OUT/APP/
 cp -fr ./recovery-install.sh $OUT/APP/
