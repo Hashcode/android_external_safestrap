@@ -30,7 +30,7 @@ touch ./sepolicy_version
 # we're using a real taskset binary
 rm -rf sbin/taskset
 cp $OUT/../../../../bootable/recovery/safestrap-common/devices/samsung_msm8960-common/init.rc ./init.rc
-cp $OUT/../../../../external/safestrap/twrp.fstab ./etc/twrp.fstab
+cp $OUT/../../../../bootable/recovery/safestrap-common/devices/samsung_msm8960-common/twrp.fstab ./etc/twrp.fstab
 rm $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 mkbootfs $OUT/recovery/root | minigzip > $OUT/install-files/etc/safestrap/ramdisk-recovery.img
 cd $OUT
