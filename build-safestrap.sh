@@ -15,4 +15,5 @@ cp -fr ./recovery-reboot.sh $OUT/APP/
 cp -fr ./hijack $OUT/install-files/etc/init.qcom.modem_links.sh
 cp -fr ./backup-ss.sh $OUT/recovery/root/sbin/backup-ss.sh
 cp -fr ./restore-ss.sh $OUT/recovery/root/sbin/restore-ss.sh
+cp -fr ./init.rc $OUT/recovery/root/init.rc
 cd ../../../gui
