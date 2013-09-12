@@ -1,6 +1,6 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 11/14/2012
+# Last Editted: 09/11/2013
 
 # system/userdata/cache
 IMAGE_NAME=${1}
@@ -8,11 +8,17 @@ LOOP_DEV=${2}
 ROMSLOT_NAME=${3}
 
 BLOCK_DIR=/dev/block
-BLOCKNAME_DIR=$BLOCK_DIR/platform/msm_sdcc.1/by-name
+BLOCK_system=mmcblk0p16
+BLOCK_userdata=mmcblk0p29
+BLOCK_cache=mmcblk0p18
+BLOCK_boot=mmcblk0p20
+
+CURRENT_BLOCK=$(BLOCK_$IMAGE_NAME)
+
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap
 
-rm $BLOCKNAME_DIR/$IMAGE_NAME
-ln -s $BLOCK_DIR/loop$LOOP_DEV $BLOCKNAME_DIR/$IMAGE_NAME
-mke2fs -T ext4 $BLOCKNAME_DIR/$IMAGE_NAME
+rm $BLOCK_DIR/$CURRENT_BLOCK
+ln -s $BLOCK_DIR/loop$LOOP_DEV $BLOCK_DIR/$CURRENT_BLOCK
+mke2fs -T ext4 $BLOCK_DIR/loop$LOOP_DEV
 
