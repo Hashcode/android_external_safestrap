@@ -3,10 +3,11 @@
 # Last Editted: 09/11/2013
 SS_SLOT=${1}
 BLOCK_DIR=/dev/block
-BLOCK_SYSTEM=mmcblk0p36
-BLOCK_USERDATA=mmcblk0p38
-BLOCK_CACHE=mmcblk0p35
-BLOCK_BOOT=mmcblk0p31
+
+BLOCK_SYSTEM=mmcblk0p38
+BLOCK_USERDATA=mmcblk0p40
+BLOCK_CACHE=mmcblk0p36
+BLOCK_BOOT=mmcblk0p33
 
 SS_MNT=/ss
 SS_DIR=$SS_MNT/safestrap

@@ -7,7 +7,7 @@ mkdir -p $OUT/install-files/etc/safestrap/res/
 cp -fr ./sbin/* $OUT/recovery/root/sbin/
 cp -fr ./2nd-init-files/* $OUT/2nd-init-files/
 cp -fr ./res/* $OUT/install-files/etc/safestrap/res/
-cd $OUT/../../../../bootable/recovery/safestrap-common/devices/motorola_msm8960-common
+cd $OUT/../../../../bootable/recovery/safestrap-common/devices/motorola_ghost
 cp -fr ./recovery-check.sh $OUT/APP/
 cp -fr ./recovery-install.sh $OUT/APP/
 cp -fr ./recovery-uninstall.sh $OUT/APP/
