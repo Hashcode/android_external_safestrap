@@ -21,5 +21,9 @@ SS_DIR=$SS_MNT/safestrap
 
 rm $BLOCK_DIR/$CURRENT_BLOCK
 ln -s $BLOCK_DIR/loop$LOOP_DEV $BLOCK_DIR/$CURRENT_BLOCK
+if [ "$LOOP_DEV" = "-userdata" ]; then
+mkfs.f2fs $BLOCK_DIR/loop$LOOP_DEV
+else
 mke2fs -T ext4 $BLOCK_DIR/loop$LOOP_DEV
+fi
 
