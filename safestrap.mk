@@ -27,3 +27,9 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 HAVE_SELINUX := true
 
 SAFESTRAP_NO_CUSTOM_UPDATER := true
+
+# Clear kernel compile
+TARGET_KERNEL_SOURCE := 
+TARGET_KERNEL_CONFIG := 
+TARGET_PREBUILT_KERNEL := device/motorola/xt926/kernel
+
