@@ -31,5 +31,5 @@ SAFESTRAP_NO_CUSTOM_UPDATER := true
 # Clear kernel compile
 TARGET_KERNEL_SOURCE := 
 TARGET_KERNEL_CONFIG := 
-TARGET_PREBUILT_KERNEL := device/motorola/xt926/kernel
+TARGET_PREBUILT_KERNEL := external/safestrap/kernel
 
