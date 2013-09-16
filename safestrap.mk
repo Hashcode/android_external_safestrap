@@ -34,7 +34,7 @@ TW_BRIGHTNESS_PATH := /sys/class/lcd/panel/backlight
 #TWRP_EVENT_LOGGING := true
 
 # Virtual partition size default (in mb)
-BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 1800
+BOARD_DEFAULT_VIRT_SYSTEM_SIZE := 2800
 BOARD_DEFAULT_VIRT_CACHE_SIZE := 300
 
 BOARD_USE_NO_DEVFS_SETUP := true
