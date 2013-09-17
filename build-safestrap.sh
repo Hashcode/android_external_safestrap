@@ -4,6 +4,7 @@ mkdir -p $OUT/recovery/root/sbin
 mkdir -p $OUT/APP
 mkdir -p $OUT/2nd-init-files
 mkdir -p $OUT/install-files/etc/safestrap/res/
+mkdir -p $OUT/install-files/etc/safestrap/rootfs/
 cp -fr ./sbin/* $OUT/recovery/root/sbin/
 cp -fr ./2nd-init-files/* $OUT/2nd-init-files/
 cp -fr ./res/* $OUT/install-files/etc/safestrap/res/
@@ -16,4 +17,5 @@ cp -fr ./hijack $OUT/install-files/etc/init.qcom.modem_links.sh
 cp -fr ./backup-ss.sh $OUT/recovery/root/sbin/backup-ss.sh
 cp -fr ./restore-ss.sh $OUT/recovery/root/sbin/restore-ss.sh
 cp -fr ./init.rc $OUT/recovery/root/init.rc
+cp -fr ./rootfs/* $OUT/install-files/etc/safestrap/rootfs/
 cd ../../../gui
