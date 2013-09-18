@@ -9,7 +9,7 @@ ROMSLOT_NAME=${3}
 
 BLOCK_DIR=/dev/block
 BLOCK_system=mmcblk0p16
-BLOCK_userdata=mmcblk0p29
+BLOCK_userdata=mmcblk0p27
 BLOCK_cache=mmcblk0p18
 BLOCK_boot=mmcblk0p20
 

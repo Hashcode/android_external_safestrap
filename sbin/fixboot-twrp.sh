@@ -1,9 +1,9 @@
 #!/sbin/bbx sh
 # By: Hashcode
-# Last Editted: 09/11/2013
+# Last Editted: 09/17/2013
 BLOCK_DIR=/dev/block
 BLOCK_SYSTEM=mmcblk0p16
-BLOCK_USERDATA=mmcblk0p29
+BLOCK_USERDATA=mmcblk0p27
 BLOCK_CACHE=mmcblk0p18
 BLOCK_BOOT=mmcblk0p20
 
